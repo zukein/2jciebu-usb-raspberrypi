@@ -103,8 +103,8 @@ if __name__ == '__main__':
     try:
         CHANNEL_ID = int(os.environ['AMBIENT_CHANNEL_ID'])
         WRITE_KEY = os.environ['AMBIENT_WRITE_KEY']
-    except KeyError:
-        print(KeyError)
+    except KeyError as e:
+        print(e)
         exit(1)
 
     am = ambient.Ambient(CHANNEL_ID, WRITE_KEY)
