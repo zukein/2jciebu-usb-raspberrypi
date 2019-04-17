@@ -104,7 +104,7 @@ if __name__ == '__main__':
         CHANNEL_ID = int(os.environ['AMBIENT_CHANNEL_ID'])
         WRITE_KEY = os.environ['AMBIENT_WRITE_KEY']
     except KeyError as e:
-        print(e)
+        print('Missing environment variable: {}'.format(e))
         exit(1)
 
     am = ambient.Ambient(CHANNEL_ID, WRITE_KEY)
