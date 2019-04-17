@@ -97,15 +97,29 @@ class EnvSensor(threading.Thread):
         self.stop = True
 
 if __name__ == '__main__':
+    try:
+        CHANNEL_ID = int(os.environ['AMBIENT_CHANNEL_ID'])
+        WRITE_KEY = os.environ['AMBIENT_WRITE_KEY']
+    except KeyError:
+        print(KeyError)
+        exit(1)
+
+    am = ambient.Ambient(CHANNEL_ID, WRITE_KEY)
+
     # EnvSensorクラスの実体を作成します
     e = EnvSensor()
     # スレッドとして処理を開始します
     e.start()
 
+    last_uploaded = datetime.now()
     while True:
         try:
-            # CO2データを取得し、print関数で表示します
-            print("eCO2: {}".format(e.get_co2()))
-            time.sleep(5)
+            timestamp = datetime.now()
+            if (timestamp - last_uploaded).seconds > 10:
+                 am.send({
+                    "d1": e.get_co2(),
+                    "created": timestamp.strftime("%Y/%m/%d %H:%M:%S")
+                })
+            time.sleep(1)
         except KeyboardInterrupt:
             break
