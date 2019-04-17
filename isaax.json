@@ -1,0 +1,8 @@
+{
+    "name": "2jciebu sample",
+    "license": "MIT",
+    "author": "",
+    "scripts": {
+        "start": "python3 -u envsensor.py"
+    }
+}
