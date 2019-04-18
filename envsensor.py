@@ -104,8 +104,8 @@ if __name__ == '__main__':
 
     while True:
         try:
+            time.sleep(10)
             # CO2データを取得し、print関数で表示します
             print("eCO2: {}".format(e.get_co2()))
-            time.sleep(5)
         except KeyboardInterrupt:
             break
