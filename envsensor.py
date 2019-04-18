@@ -2,6 +2,10 @@ import serial
 import threading
 import time
 
+import ambient
+import os
+from datetime import datetime
+
 class EnvSensor(threading.Thread):
 
     def __init__(self, port='/dev/ttyUSB0', interval=1):
