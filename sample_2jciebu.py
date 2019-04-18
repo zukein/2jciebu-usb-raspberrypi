@@ -96,7 +96,29 @@ def now_utc_str():
 
 
 if __name__ == '__main__':
-
+    
+    try:
+        CHANNEL_ID = int(os.environ['AMBIENT_CHANNEL_ID'])
+        WRITE_KEY = os.environ['AMBIENT_WRITE_KEY']
+    except KeyError as e:
+        print('Missing environment variable: '.format(e))
+        exit(1)
+        
+    am = ambient.Ambient(CHANNEL_ID, WRITE_KEY)
+    
+    last_uploaded = datetime.now()
+    while True:
+        try:
+            timestamp = datetime.now()
+            if (timestamp - last_uploaded).seconds > 10:
+                 am.send({
+                    "d1": e.get_co2(),
+                    "created": timestamp.strftime("%Y/%m/%d %H:%M:%S")
+                })
+            time.sleep(1)
+        except KeyboardInterrupt:
+            break
+        
     # Serial.
     ser = serial.Serial("/dev/ttyUSB0", 115200, serial.EIGHTBITS, serial.PARITY_NONE)
 
